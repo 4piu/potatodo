@@ -5,41 +5,39 @@ import {PureComponent} from "react";
 import Appbar from "./Appbar";
 import BottomNav from "./BottomNav";
 import ActivityContext from "../Context/ActivityContext";
+import {Container} from "@mui/material";
 
 class App extends PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            activity: ActivityContext.Activity.TODO,
-            focusedTodoId: null
+            activity: ActivityContext.Activity.TASK
         };
     }
 
     setActivity = (newVal) => {
         this.setState({
             activity: newVal
-        })
-    }
-
-    setFocusedTodoId = (newVal) => {
-        this.setState({
-            focusedTodoId: newVal
-        })
-    }
+        });
+    };
 
     render() {
 
         return (
             <ActivityContext.Provider value={{
                 activity: this.state.activity,
-                setActivity: this.setActivity,
-                focusedTodoId: this.state.focusedTodoId,
-                setFocusedTodoId: this.setFocusedTodoId
+                setActivity: this.setActivity
             }}>
                 <CssBaseline/>
-                <Appbar/>
-                <BottomNav/>
+                {(this.state.activity !== ActivityContext.Activity.TIMER) &&
+                    <Appbar/>}
+                <Container maxWidth="lg">
+
+                </Container>
+                {(this.state.activity === ActivityContext.Activity.TASK ||
+                        this.state.activity === ActivityContext.Activity.STATISTICS) &&
+                    <BottomNav/>}
             </ActivityContext.Provider>
         );
     }

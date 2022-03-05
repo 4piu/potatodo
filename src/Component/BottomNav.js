@@ -23,8 +23,9 @@ class BottomNav extends PureComponent {
                     value={this.context.activity}
                     onChange={this.onTabChange}
                 >
-                    <BottomNavigationAction value={ActivityContext.Activity.TODO} label="Todo" icon={<ListIcon/>}/>
-                    <BottomNavigationAction value={ActivityContext.Activity.STATISTICS} label="Statistics" icon={<HistoryIcon/>}/>
+                    <BottomNavigationAction value={ActivityContext.Activity.TASK} label="Todo" icon={<ListIcon/>}/>
+                    <BottomNavigationAction value={ActivityContext.Activity.STATISTICS} label="Statistics"
+                                            icon={<HistoryIcon/>}/>
                 </BottomNavigation>
             </Paper>
         );
