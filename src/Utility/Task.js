@@ -1,9 +1,9 @@
 import {v1 as uuidv1} from 'uuid';
 
 const TimerMode = Object.freeze({
-    COUNT_DOWN: Symbol(0),
-    ACCUMULATIVE: Symbol(1),
-    ONETIME: Symbol(2)
+    COUNT_DOWN: 0,
+    ACCUMULATIVE: 1,
+    ONETIME: 2
 });
 
 /**
@@ -17,8 +17,8 @@ const TimerMode = Object.freeze({
  * @property {string} comment user defined comment
  * @property {Array} historyTimer list of timer IDs of the task
  * @property {number} targetDeadline (target) timestamp of the target DDL
- * @property {HabitPeriod} habitPeriod (habit)
- * @property {number} quantity (target, habit) task quantity, eg. 3 hours, 10 pages
+ * @property {HabitPeriod} habitPeriod (habit) habit loop period
+ * @property {number} quantity (target, habit) task quantity, e.g. 3 hours, 10 pages
  * @property {QuantityUnit} quantityUnit minutes, hours, times, or custom
  * @property {string} customUnit (quantityUnit=custom) user defined quantity unit
  * @property {number} countDown (count down) work time for each timer in minutes. default 25
@@ -26,22 +26,22 @@ const TimerMode = Object.freeze({
  */
 class Task {
     static Type = Object.freeze({
-        TOMATO: Symbol(0),
-        TARGET: Symbol(1),
-        HABIT: Symbol(2)
+        TOMATO: 0,
+        TARGET: 1,
+        HABIT: 2
     });
 
     static QuantityUnit = Object.freeze({
-        MINUTES: Symbol(0),
-        HOUR: Symbol(1),
-        OCCURRENCE: Symbol(2),
-        CUSTOM: Symbol(3)
+        MINUTES: 0,
+        HOUR: 1,
+        OCCURRENCE: 2,
+        CUSTOM: 3
     });
 
     static HabitPeriod = Object.freeze({
-        DAILY: Symbol(0),
-        WEEKLY: Symbol(0),
-        MONTHLY: Symbol(0)
+        DAILY: 0,
+        WEEKLY: 1,
+        MONTHLY: 2
     })
 
     constructor(name, type, timerMode, options = null) {
