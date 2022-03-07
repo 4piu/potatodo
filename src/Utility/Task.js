@@ -19,7 +19,7 @@ const TimerMode = Object.freeze({
  * @property {number} targetDeadline (target) timestamp of the target DDL
  * @property {HabitPeriod} habitPeriod (habit) habit loop period
  * @property {number} quantity (target, habit) task quantity, e.g. 3 hours, 10 pages
- * @property {QuantityUnit} quantityUnit minutes, hours, times, or custom
+ * @property {QuantityUnit} quantityUnit (target, habit) minutes, hours, times, or custom
  * @property {string} customUnit (quantityUnit=custom) user defined quantity unit
  * @property {number} countDown (count down) work time for each timer in minutes. default 25
  * @property {number} restTime (count down, accumulative) rest time after each work in minutes. default 5
@@ -44,15 +44,15 @@ class Task {
         MONTHLY: 2
     })
 
-    constructor(name, type, timerMode, options = null) {
-        this.uuid = uuidv1();
-        this.type = type;
-        this.name = name;
-        this.timerMode = timerMode;
+    constructor(options) {
+        this.uuid = options.uuid || uuidv1();
+        this.type = options.type;
+        this.name = options.name;
+        this.timerMode = options.timerMode;
         this.comment = options.comment;
-        this.historyTimer = [];
+        this.historyTimer = options.historyTimer || [];
 
-        switch (type) {
+        switch (this.type) {
             case Task.Type.TARGET: {
                 this.targetDeadline = options.targetDeadline;
                 this.quantity = options.quantity;
@@ -69,7 +69,7 @@ class Task {
             }
         }
 
-        switch (timerMode) {
+        switch (this.timerMode) {
             case TimerMode.COUNT_DOWN: {
                 this.countDown = options.countDown || 25;
                 this.restTime = options.restTime || 5;
