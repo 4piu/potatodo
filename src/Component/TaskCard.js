@@ -1,10 +1,18 @@
 import {PureComponent} from "react";
-import {Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
+import {Button, Card, CardActions, CardContent, Typography} from "@mui/material";
+import ActivityContext from "../Context/ActivityContext";
 
 class TaskCard extends PureComponent {
+    static contextType = ActivityContext;
+
     constructor(props) {
         super(props);
     }
+
+    onStartClicked = () => {
+        this.context.setActiveTaskId(this.props.task.uuid);
+        this.context.setActivity(ActivityContext.Activity.TIMER);
+    };
 
     render() {
         return (
@@ -18,10 +26,10 @@ class TaskCard extends PureComponent {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Start</Button>
+                    <Button size="small" onClick={this.onStartClicked}>Start</Button>
                 </CardActions>
             </Card>
-        )
+        );
     }
 }
 
