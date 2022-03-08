@@ -41,7 +41,7 @@ class Appbar extends Component {
                             </IconButton>
                         }
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                            {this.context.activity === ActivityContext.Activity.DETAIL?
+                            {this.context.activity === ActivityContext.Activity.DETAIL ?
                                 "Todo edit" : "Potatodo"
                             }
 
@@ -75,7 +75,6 @@ class Appbar extends Component {
                         </Menu>
                     </Toolbar>
                 </AppBar>
-                <Toolbar/>
             </Box>
         );
     }

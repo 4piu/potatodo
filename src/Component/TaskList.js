@@ -1,49 +1,18 @@
 import {PureComponent} from "react";
-import StorageHelper from "../Utility/StorageHelper";
-import {Fab} from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import TaskEditor from "./TaskEditor";
-import ActivityContext from "../Context/ActivityContext";
+import {Grid} from "@mui/material";
+import TaskCard from "./TaskCard";
 
 class TaskList extends PureComponent {
-    static contextType = ActivityContext;
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            taskList: [],
-            showTaskEditor: false
-        };
-    }
-
-    componentDidMount() {
-        this.setState({
-            taskList: StorageHelper.getAllTask()
-        });
-    }
-
-    fabClick = () => {
-        this.setState({
-            showTaskEditor: true
-        });
-    };
-
-    editorClose = () => {
-        this.setState({
-            showTaskEditor: false
-        });
-        this.context.setActiveTaskId(null);
-    };
-
     render() {
         return (
             <>
-                {this.state.showTaskEditor &&
-                    <TaskEditor onClose={this.editorClose} activeTaskId={this.context.activeTaskId}/>}
-                {/* TODO show task list*/}
-                <Fab color="secondary" aria-label="add" onClick={this.fabClick}>
-                    <AddIcon/>
-                </Fab>
+                <Grid container spacing={{xs: 2, md: 4}}>
+                    {this.props.taskList.map((item, index) => (
+                        <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                            <TaskCard task={item}/>
+                        </Grid>
+                    ))}
+                </Grid>
             </>
         );
     }
