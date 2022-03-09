@@ -104,7 +104,8 @@ dist
 .tern-port
 
 # IntelliJ
-.idea/# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+.idea/
 
 # dependencies
 /node_modules
@@ -127,5 +128,3 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-.idea/
