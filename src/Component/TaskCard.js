@@ -1,18 +1,16 @@
-import {PureComponent} from "react";
+import { PureComponent } from "react";
 import {
     Button,
     Card,
     CardActions,
-    CardContent, Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText, DialogTitle,
+    CardContent,
     Typography
 } from "@mui/material";
 import ActivityContext from "../Context/ActivityContext";
-import {TimerMode} from "../Utility/Task";
+import { TimerMode } from "../Utility/Task";
 import Timer from "../Utility/Timer";
 import StorageHelper from "../Utility/StorageHelper";
+import Prompt from "./Prompt";
 
 class TaskCard extends PureComponent {
     static contextType = ActivityContext;
@@ -20,7 +18,7 @@ class TaskCard extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            showOnetimeConfirm: false
+            showOnetimePrompt: false,
         }
     }
 
@@ -30,19 +28,22 @@ class TaskCard extends PureComponent {
             this.context.setActivity(ActivityContext.Activity.TIMER);
         } else {
             this.setState({
-                showOnetimeConfirm: true
+                showOnetimePrompt: true
             });
         }
     };
 
-    onConfirmAction = () => {
+    onCompleteConfirm = () => {
         StorageHelper.addTimer(new Timer(this.props.task.uuid, TimerMode.ONETIME));
         StorageHelper.completeTimer();
+        this.setState({
+            showOnetimePrompt: false
+        });
     }
 
-    onCancelAction = () => {
+    onCompleteCancel = () => {
         this.setState({
-            showOnetimeConfirm: false
+            showOnetimePrompt: false
         })
     }
 
@@ -63,25 +64,14 @@ class TaskCard extends PureComponent {
                     </CardActions>
                 </Card>
                 {this.props.task.timerMode === TimerMode.ONETIME &&
-                    <Dialog
-                        open={this.state.showOnetimeConfirm}
-                        onClose={this.onCancelAction}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">
-                            Completing task?
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                This is a one-time task and will be completed immediately.
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={this.onCancelAction}>Cancel</Button>
-                            <Button onClick={this.onConfirmAction} autoFocus>Complete</Button>
-                        </DialogActions>
-                    </Dialog>
+                    <Prompt
+                        open={this.state.showOnetimePrompt}
+                        title="Completing task?"
+                        content="This is a one-time task and will be completed immediately."
+                        actions={[
+                            <Button onClick={this.onCompleteCancel}>Cancel</Button>,
+                            <Button onClick={this.onCompleteConfirm} autoFocus>Complete</Button>]}
+                    />
                 }
             </>
         );
