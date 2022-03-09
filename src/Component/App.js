@@ -62,7 +62,7 @@ class App extends PureComponent {
                 <CssBaseline/>
                 {(this.state.activity !== ActivityContext.Activity.TIMER) &&
                     <Appbar/>}
-                <Container maxWidth="lg" sx={{my: 11}}>
+                <Container maxWidth="lg" sx={{py: 11, backgroundColor: '#eee', minHeight: '100vh'}}>
                     {this.state.activity === ActivityContext.Activity.TASK &&
                         <TaskList taskList={StorageHelper.getAllTask()}/>}
                     {this.state.activity === ActivityContext.Activity.DETAIL &&
