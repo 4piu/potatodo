@@ -1,31 +1,29 @@
 import {Task} from "./Task";
 
 class StorageHelper {
-    static cacheAllTask = null;
+    static cachedTask = JSON.parse(localStorage.getItem('task')) || {};
 
     static getAllTask = () => {
-        StorageHelper.cacheAllTask = StorageHelper.cacheAllTask || JSON.parse(localStorage.getItem("task")) || {};
         const ret = [];
-        for (const [_, v] of Object.entries(StorageHelper.cacheAllTask)) {
+        for (const [_, v] of Object.entries(StorageHelper.cachedTask)) {
             ret.push(new Task(v));
         }
         return ret;
     };
 
     static getTask = (taskId) => {
-        StorageHelper.cacheAllTask = StorageHelper.cacheAllTask || JSON.parse(localStorage.getItem("task")) || {};
-        const options = StorageHelper.cacheAllTask[taskId];
+        const options = StorageHelper.cachedTask[taskId];
         return options && new Task(options);
     };
 
     static updateTask = (taskId, options) => {
-        StorageHelper.cacheAllTask[taskId] = options;
-        localStorage.setItem('task', JSON.stringify(StorageHelper.cacheAllTask));
+        StorageHelper.cachedTask[taskId] = options;
+        localStorage.setItem('task', JSON.stringify(StorageHelper.cachedTask));
     };
 
     static addTask = (task) => {
-        StorageHelper.cacheAllTask[task.uuid] = task;
-        localStorage.setItem('task', JSON.stringify(StorageHelper.cacheAllTask));
+        StorageHelper.cachedTask[task.uuid] = task;
+        localStorage.setItem('task', JSON.stringify(StorageHelper.cachedTask));
     };
 }
 
