@@ -1,8 +1,10 @@
-import { Box, Paper, Typography, Stack } from "@mui/material";
-import { PureComponent } from "react";
+import {Box, ButtonGroup, Button} from "@mui/material";
+import {PureComponent} from "react";
 import ActivityContext from "../Context/ActivityContext";
 import StorageHelper from "../Utility/StorageHelper";
 import Countdown from "./Countdown";
+import PauseIcon from '@mui/icons-material/Pause';
+import StopIcon from '@mui/icons-material/Stop';
 
 class TimerView extends PureComponent {
     static contextType = ActivityContext;
@@ -17,7 +19,7 @@ class TimerView extends PureComponent {
             activeTaskId: null,
             activity: ActivityContext.Activity.TASK
         });
-    }
+    };
 
     render() {
         return (
@@ -27,7 +29,14 @@ class TimerView extends PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <Countdown value={42} text="88:88:88"/>
+                <Countdown value={42} text="88:88"/>
+                <ButtonGroup disableElevation variant="contained" size="large" sx={{
+                    position: 'absolute',
+                    bottom: '10%'
+                }}>
+                    <Button><PauseIcon/></Button>
+                    <Button><StopIcon/></Button>
+                </ButtonGroup>
             </Box>
         );
     }

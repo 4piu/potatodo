@@ -12,7 +12,8 @@ class Countdown extends PureComponent {
                 <CircularProgress variant="determinate" {...this.props} size={''} sx={{
                     width: {
                         xs: 300,
-                        md: 500
+                        md: 400,
+                        lg: 500
                     }
                 }}/>
                 <Box
@@ -27,7 +28,13 @@ class Countdown extends PureComponent {
                         justifyContent: 'center',
                     }}
                 >
-                    <Typography component="div" color="text.secondary">
+                    <Typography component="div" color="text.secondary" sx={{
+                        fontSize: {
+                            xs: '70px',
+                            md: '90px',
+                            lg: '120px'
+                        }
+                    }}>
                         {this.props.text}
                     </Typography>
                 </Box>
