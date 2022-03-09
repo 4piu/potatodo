@@ -15,11 +15,12 @@ import {TimerMode} from "./Task";
  * @property {number} remainingRestDuration (countdown, accumulative) remaining rest time in seconds
  */
 class Timer {
-    constructor(timerMode, options) {
+    constructor(taskUuid, timerMode, options = {}) {
         this.uuid = uuidv1();
         this.timerMode = timerMode;
         this.pausedTime = options.pausedTime;
         this.startTime = options.startTime || Date.now();
+        this.taskUuid = taskUuid;
 
         switch (timerMode) {
             case TimerMode.COUNT_DOWN: {
