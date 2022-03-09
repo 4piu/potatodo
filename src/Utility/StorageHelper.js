@@ -48,6 +48,10 @@ class StorageHelper {
         localStorage.setItem('history', JSON.stringify(StorageHelper.cachedHistory));
         localStorage.setItem('task', JSON.stringify(StorageHelper.cachedTask));
     }
+
+    static deleteTimer = () => {
+        localStorage.setItem('timer', null);
+    }
 }
 
 export default StorageHelper;
