@@ -210,7 +210,7 @@ class TaskEditor extends PureComponent {
                         </RadioGroup>
                     </FormControl>
                     {this.state.taskTimerMode === TimerMode.COUNT_DOWN &&
-                        <TextField variant="standard" label="Work time" sx={{ my: 1 }}
+                        <TextField variant="standard" label="Work time" sx={{ my: 1, mr: 1.5 }}
                             InputProps={{
                                 inputMode: 'numeric',
                                 pattern: '[0-9]*',
@@ -221,7 +221,7 @@ class TaskEditor extends PureComponent {
 
                     }
                     {this.state.taskTimerMode !== TimerMode.ONETIME &&
-                        <TextField variant="standard" label="Rest time" sx={{ my: 1 }}
+                        <TextField variant="standard" label="Rest time" sx={{ my: 1, mr: 1.5 }}
                             InputProps={{
                                 inputMode: 'numeric',
                                 pattern: '[0-9]*',
