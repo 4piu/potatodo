@@ -19,7 +19,7 @@ class Prompt extends PureComponent {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    {this.props.actions.map((item, idx) => (
+                    {this.props.actions?.map((item, idx) => (
                         <div key={idx}>
                            {item}
                         </div>

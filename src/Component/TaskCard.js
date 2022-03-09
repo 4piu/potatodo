@@ -18,7 +18,10 @@ class TaskCard extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            showOnetimePrompt: false,
+            showPrompt: false,
+            promptTitle: null,
+            promptContent: null,
+            promptActions: null
         }
     }
 
@@ -28,7 +31,13 @@ class TaskCard extends PureComponent {
             this.context.setActivity(ActivityContext.Activity.TIMER);
         } else {
             this.setState({
-                showOnetimePrompt: true
+                showPrompt: true,
+                promptTitle: "Complete the task?",
+                promptContent: "This is a one-time task and will be completed immediately.",
+                promptActions: [
+                    <Button onClick={this.closePrompt}>Cancel</Button>,
+                    <Button onClick={this.onCompleteConfirm} autoFocus>Complete</Button>
+                ]
             });
         }
     };
@@ -36,8 +45,14 @@ class TaskCard extends PureComponent {
     onCompleteConfirm = () => {
         StorageHelper.addTimer(new Timer(this.props.task.uuid, TimerMode.ONETIME));
         StorageHelper.completeTimer();
+        this.closePrompt();
+    }
+
+    closePrompt = () => {
         this.setState({
-            showOnetimePrompt: false
+            showPrompt: false
+        })
+    }
         });
     }
 
@@ -63,14 +78,12 @@ class TaskCard extends PureComponent {
                         <Button size="small" onClick={this.onStartClicked}>Start</Button>
                     </CardActions>
                 </Card>
-                {this.props.task.timerMode === TimerMode.ONETIME &&
                     <Prompt
-                        open={this.state.showOnetimePrompt}
-                        title="Completing task?"
-                        content="This is a one-time task and will be completed immediately."
-                        actions={[
-                            <Button onClick={this.onCompleteCancel}>Cancel</Button>,
-                            <Button onClick={this.onCompleteConfirm} autoFocus>Complete</Button>]}
+                    open={this.state.showPrompt}
+                    onClose={this.closePrompt}
+                    title={this.state.promptTitle}
+                    content={this.state.promptContent}
+                    actions={this.state.promptActions}
                     />
                 }
             </>
