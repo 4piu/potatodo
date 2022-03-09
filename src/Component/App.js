@@ -13,6 +13,7 @@ import TimerView from "./TimerView";
 import TaskEditor from "./TaskEditor";
 import AddIcon from "@mui/icons-material/Add";
 import StorageHelper from "../Utility/StorageHelper";
+import Prompt from './Prompt';
 
 class App extends PureComponent {
     constructor(props) {
@@ -21,7 +22,13 @@ class App extends PureComponent {
         this.state = {
             activity: ActivityContext.Activity.TASK,
             activeTaskId: null,
-            showTaskEditor: false
+            showTaskEditor: false,
+            showPrompt: false,
+            prompt: {
+                title: null,
+                content: null,
+                actions: null
+            }
         };
     }
 
@@ -37,6 +44,14 @@ class App extends PureComponent {
         });
     };
 
+    getAppState = () => {
+        return this.state;
+    }
+
+    setAppState = (newState) => {
+        this.setState(newState);
+    }
+
     fabClick = () => {
         this.setState({
             showTaskEditor: true
@@ -50,6 +65,12 @@ class App extends PureComponent {
         this.setActiveTaskId(null);
     };
 
+    promptClose = () => {
+        this.setState({
+            showPrompt: false
+        });
+    };
+
     render() {
         const isTaskView = this.state.activity === ActivityContext.Activity.TASK,
             isDetailView = this.state.activity === ActivityContext.Activity.DETAIL,
@@ -58,16 +79,14 @@ class App extends PureComponent {
 
         return (
             <ActivityContext.Provider value={{
-                activity: this.state.activity,
-                setActivity: this.setActivity,
-                activeTaskId: this.state.activeTaskId,
-                setActiveTaskId: this.setActiveTaskId
+                getAppState: this.getAppState,
+                setAppState: this.setAppState
             }}>
                 <CssBaseline />
                 {!isTimerView &&
                     <>
                         <Appbar />
-                        <Container maxWidth="lg" sx={{ py: 11}}>
+                        <Container maxWidth="lg" sx={{ py: 11 }}>
                             {isTaskView &&
                                 <TaskList taskList={StorageHelper.getAllTask()} />}
                             {isStatisticsView &&
@@ -87,7 +106,13 @@ class App extends PureComponent {
                         sx={{ position: 'fixed', bottom: 80, right: 30 }}>
                         <AddIcon />
                     </Fab>}
-
+                <Prompt
+                    open={this.state.showPrompt}
+                    onClose={this.promptClose}
+                    title={this.state.prompt.title}
+                    content={this.state.prompt.content}
+                    actions={this.state.prompt.actions}
+                />
             </ActivityContext.Provider>
         );
     }

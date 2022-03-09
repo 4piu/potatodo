@@ -12,15 +12,16 @@ class BottomNav extends PureComponent {
     static contextType = ActivityContext;
 
     onTabChange = (ev, newVal) => {
-        this.context.setActivity(newVal);
+        this.context.setAppState({activity: newVal});
     };
 
     render() {
+        const appState = this.context.getAppState()
         return (
             <Paper sx={{position: 'fixed', bottom: 0, left: 0, right: 0}} elevation={3}>
                 <BottomNavigation
                     showLabels
-                    value={this.context.activity}
+                    value={appState.activity}
                     onChange={this.onTabChange}
                 >
                     <BottomNavigationAction value={ActivityContext.Activity.TASK} label="Todo" icon={<ListIcon/>}/>
