@@ -18,7 +18,7 @@ class StorageHelper {
     };
 
     static updateTask = (taskId, options) => {
-        StorageHelper.cachedTask[taskId] = options;
+        StorageHelper.cachedTask[taskId] = {uuid: taskId, ...options};
         localStorage.setItem('task', JSON.stringify(StorageHelper.cachedTask));
     };
 

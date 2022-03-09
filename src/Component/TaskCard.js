@@ -46,7 +46,20 @@ class TaskCard extends PureComponent {
         this.closePrompt();
     }
 
+    onMenuEditClick = () => {
+        this.setState({
+            anchorEl: null
+        });
+        this.context.setAppState({
+            activeTaskId: this.props.task.uuid,
+            showTaskEditor: true
+        });
+    }
+
     onMenuDeleteClick = () => {
+        this.setState({
+            anchorEl: null
+        });
         this.context.setAppState({
             showPrompt: true,
             prompt: {
@@ -118,7 +131,7 @@ class TaskCard extends PureComponent {
                     open={Boolean(this.state.anchorEl)}
                     onClose={this.closeMenu}
                 >
-                    <MenuItem>Edit</MenuItem>
+                    <MenuItem onClick={this.onMenuEditClick}>Edit</MenuItem>
                     <MenuItem onClick={this.onMenuDeleteClick}>Delete</MenuItem>
                 </Menu>
 

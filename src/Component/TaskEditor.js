@@ -1,4 +1,4 @@
-import {PureComponent} from "react";
+import { PureComponent } from "react";
 import {
     Box,
     Button,
@@ -18,7 +18,7 @@ import {
     TextField
 } from "@mui/material";
 import StorageHelper from "../Utility/StorageHelper";
-import {Task, TimerMode} from "../Utility/Task";
+import { Task, TimerMode } from "../Utility/Task";
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
@@ -27,38 +27,20 @@ class TaskEditor extends PureComponent {
 
     constructor(props) {
         super(props);
+        const activeTask = this.props.activeTaskId ? StorageHelper.getTask(this.props.activeTaskId) : {};
         this.state = {
-            taskName: "",
-            taskComment: "",
-            taskType: Task.Type.TOMATO,
-            taskTimerMode: TimerMode.COUNT_DOWN,
-            taskTargetDeadline: Date.now() + 24 * 3600 * 1000,
-            taskHabitPeriod: Task.HabitPeriod.DAILY,
-            taskQuantity: 25,
-            taskQuantityUnit: Task.QuantityUnit.MINUTES,
-            taskCustomUnit: "",
-            taskCountDown: 25,
-            taskRestTime: 5
+            taskName: activeTask.name || "",
+            taskComment: activeTask.comment || "",
+            taskType: activeTask.type || Task.Type.TOMATO,
+            taskTimerMode: activeTask.timerMode || TimerMode.COUNT_DOWN,
+            taskTargetDeadline: activeTask.targetDeadline || Date.now() + 24 * 3600 * 1000,
+            taskHabitPeriod: activeTask.habitPeriod || Task.HabitPeriod.DAILY,
+            taskQuantity: activeTask.quantity || 25,
+            taskQuantityUnit: activeTask.quantityUnit || Task.QuantityUnit.MINUTES,
+            taskCustomUnit: activeTask.customUnit || "",
+            taskCountDown: activeTask.countDown || 25,
+            taskRestTime: activeTask.restTime || 5
         };
-    }
-
-    componentDidMount() {
-        if (this.props.activeTaskId) {
-            const activeTask = StorageHelper.getTask(this.props.activeTaskId);
-            this.setState({
-                taskName: activeTask.name,
-                taskComment: activeTask.comment,
-                taskType: activeTask.type,
-                taskTimerMode: activeTask.timerMode,
-                taskTargetDeadline: activeTask.targetDeadline,
-                taskHabitPeriod: activeTask.habitPeriod,
-                taskQuantity: activeTask.quantity,
-                taskQuantityUnit: activeTask.quantityUnit,
-                taskCustomUnit: activeTask.customUnit,
-                taskCountDown: activeTask.countDown,
-                taskRestTime: activeTask.restTime
-            });
-        }
     }
 
     onNameChange = (ev) => {
@@ -154,6 +136,7 @@ class TaskEditor extends PureComponent {
         for (const [k, v] of Object.entries(Validator)) {
             error[k] = !v();
         }
+        console.debug(error)
 
         return (<Dialog
             open={true}
@@ -161,17 +144,17 @@ class TaskEditor extends PureComponent {
             <DialogTitle>{this.props.activeTaskId ? "Edit" : "Create new todo"}</DialogTitle>
             <DialogContent>
                 <Box component="form" autoComplete="off" noValidate>
-                    <TextField fullWidth variant="standard" error={error.name} label="Name" sx={{my: 1}}
-                               value={this.state.taskName} onChange={this.onNameChange} required/>
-                    <TextField fullWidth variant="standard" label="Description" sx={{my: 1}}
-                               value={this.state.taskComment} onChange={this.onCommentChange} multiline/>
+                    <TextField fullWidth variant="standard" error={error.name} label="Name" sx={{ my: 1 }}
+                        value={this.state.taskName} onChange={this.onNameChange} required />
+                    <TextField fullWidth variant="standard" label="Description" sx={{ my: 1 }}
+                        value={this.state.taskComment} onChange={this.onCommentChange} multiline />
                     <FormControl fullWidth>
                         <FormLabel id="form-task-type">Type</FormLabel>
                         <RadioGroup row aria-labelledby="form-task-type" value={this.state.taskType}
-                                    onChange={this.onTypeChange}>
-                            <FormControlLabel value={Task.Type.TOMATO} control={<Radio/>} label="Tomato"/>
-                            <FormControlLabel value={Task.Type.TARGET} control={<Radio/>} label="Target"/>
-                            <FormControlLabel value={Task.Type.HABIT} control={<Radio/>} label="Habit"/>
+                            onChange={this.onTypeChange}>
+                            <FormControlLabel value={Task.Type.TOMATO} control={<Radio />} label="Tomato" />
+                            <FormControlLabel value={Task.Type.TARGET} control={<Radio />} label="Target" />
+                            <FormControlLabel value={Task.Type.HABIT} control={<Radio />} label="Habit" />
                         </RadioGroup>
                     </FormControl>
                     {this.state.taskType === Task.Type.TARGET && <LocalizationProvider dateAdapter={DateAdapter}>
@@ -181,12 +164,12 @@ class TaskEditor extends PureComponent {
                             value={new Date(this.state.taskTargetDeadline)}
                             onChange={this.onTargetDeadlineChange}
                             minDate={Date.now() + 24 * 3600 * 1000}
-                            renderInput={(params) => <TextField {...params} sx={{my: 1}} fullWidth
-                                                                variant="standard"/>}
+                            renderInput={(params) => <TextField {...params} sx={{ my: 1 }} fullWidth
+                                variant="standard" />}
                         />
                     </LocalizationProvider>}
                     {this.state.taskType === Task.Type.HABIT &&
-                        <FormControl variant="standard" fullWidth sx={{my: 1}}>
+                        <FormControl variant="standard" fullWidth sx={{ my: 1 }}>
                             <InputLabel id="form-label-habit-period">Period</InputLabel>
                             <Select
                                 labelId="form-label-habit-period"
@@ -199,11 +182,11 @@ class TaskEditor extends PureComponent {
                             </Select>
                         </FormControl>}
                     {[Task.Type.TARGET, Task.Type.HABIT].includes(this.state.taskType) && <>
-                        <TextField variant="standard" label="Quantity" sx={{my: 1}}
-                                   InputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
-                                   error={error.quantity}
-                                   value={this.state.taskQuantity} onChange={this.onQuantityChange} required/>
-                        <FormControl variant="standard" sx={{my: 1}}>
+                        <TextField variant="standard" label="Quantity" sx={{ my: 1 }}
+                            InputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                            error={error.quantity}
+                            value={this.state.taskQuantity} onChange={this.onQuantityChange} required />
+                        <FormControl variant="standard" sx={{ my: 1 }}>
                             <InputLabel id="form-label-quantity-unit">Unit</InputLabel>
                             <Select
                                 labelId="form-label-quantity-unit"
@@ -219,33 +202,33 @@ class TaskEditor extends PureComponent {
                     <FormControl fullWidth>
                         <FormLabel id="form-task-mode">Mode</FormLabel>
                         <RadioGroup row aria-labelledby="form-task-mode" value={this.state.taskTimerMode}
-                                    onChange={this.onModeChange}>
-                            <FormControlLabel value={TimerMode.COUNT_DOWN} control={<Radio/>} label="Count down"/>
-                            <FormControlLabel value={TimerMode.ACCUMULATIVE} control={<Radio/>}
-                                              label="Accumulative"/>
-                            <FormControlLabel value={TimerMode.ONETIME} control={<Radio/>} label="One time"/>
+                            onChange={this.onModeChange}>
+                            <FormControlLabel value={TimerMode.COUNT_DOWN} control={<Radio />} label="Count down" />
+                            <FormControlLabel value={TimerMode.ACCUMULATIVE} control={<Radio />}
+                                label="Accumulative" />
+                            <FormControlLabel value={TimerMode.ONETIME} control={<Radio />} label="One time" />
                         </RadioGroup>
                     </FormControl>
                     {this.state.taskTimerMode === TimerMode.COUNT_DOWN &&
-                        <TextField variant="standard" label="Work time" sx={{my: 1}}
-                                   InputProps={{
-                                       inputMode: 'numeric',
-                                       pattern: '[0-9]*',
-                                       endAdornment: <InputAdornment position="end">minutes</InputAdornment>
-                                   }}
-                                   error={error.countDown}
-                                   value={this.state.taskCountDown} onChange={this.onCountDownChange} required/>
+                        <TextField variant="standard" label="Work time" sx={{ my: 1 }}
+                            InputProps={{
+                                inputMode: 'numeric',
+                                pattern: '[0-9]*',
+                                endAdornment: <InputAdornment position="end">minutes</InputAdornment>
+                            }}
+                            error={error.countDown}
+                            value={this.state.taskCountDown} onChange={this.onCountDownChange} required />
 
                     }
                     {this.state.taskTimerMode !== TimerMode.ONETIME &&
-                        <TextField variant="standard" label="Rest time" sx={{my: 1}}
-                                   InputProps={{
-                                       inputMode: 'numeric',
-                                       pattern: '[0-9]*',
-                                       endAdornment: <InputAdornment position="end">minutes</InputAdornment>
-                                   }}
-                                   error={error.restTime}
-                                   value={this.state.taskRestTime} onChange={this.onRestTimeChange} required/>
+                        <TextField variant="standard" label="Rest time" sx={{ my: 1 }}
+                            InputProps={{
+                                inputMode: 'numeric',
+                                pattern: '[0-9]*',
+                                endAdornment: <InputAdornment position="end">minutes</InputAdornment>
+                            }}
+                            error={error.restTime}
+                            value={this.state.taskRestTime} onChange={this.onRestTimeChange} required />
 
                     }
                 </Box>
@@ -253,7 +236,7 @@ class TaskEditor extends PureComponent {
             <DialogActions>
                 <Button onClick={this.props.onClose}>Cancel</Button>
                 <Button onClick={this.saveTask} variant={"contained"}
-                        disabled={Object.values(error).indexOf(true) > -1}>Save</Button>
+                    disabled={Object.values(error).indexOf(true) > -1}>Save</Button>
             </DialogActions>
         </Dialog>);
     }
