@@ -67,7 +67,7 @@ class App extends PureComponent {
                 {!isTimerView &&
                     <>
                         <Appbar />
-                        <Container maxWidth="lg" sx={{ py: 11, backgroundColor: '#eee', minHeight: '100vh' }}>
+                        <Container maxWidth="lg" sx={{ py: 11}}>
                             {isTaskView &&
                                 <TaskList taskList={StorageHelper.getAllTask()} />}
                             {isStatisticsView &&

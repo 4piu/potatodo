@@ -48,7 +48,7 @@ class Appbar extends Component {
                         </Typography>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
+                            aria-label="menu"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={this.openMenu}
