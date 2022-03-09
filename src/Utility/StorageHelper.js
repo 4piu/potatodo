@@ -39,6 +39,15 @@ class StorageHelper {
         localStorage.setItem('task', JSON.stringify(StorageHelper.cachedTask));
         localStorage.setItem('timer', null);
     }
+
+    static deleteTask = (taskId) => {
+        for (const [k, v] of Object.entries(StorageHelper.cachedHistory)) {
+            if (v.taskUuid === taskId) delete StorageHelper.cachedHistory[k];
+        }
+        delete StorageHelper.cachedTask[taskId];
+        localStorage.setItem('history', JSON.stringify(StorageHelper.cachedHistory));
+        localStorage.setItem('task', JSON.stringify(StorageHelper.cachedTask));
+    }
 }
 
 export default StorageHelper;
