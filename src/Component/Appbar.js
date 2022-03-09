@@ -43,37 +43,41 @@ class Appbar extends Component {
                         }
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             {appState.activity === ActivityContext.Activity.DETAIL ?
-                                "Todo edit" : "Potatodo"
+                                "History" : "Potatodo"
                             }
 
                         </Typography>
-                        <IconButton
-                            size="large"
-                            aria-label="menu"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={this.openMenu}
-                            color="inherit"
-                        >
-                            <MoreVert />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={this.state.anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                            open={Boolean(this.state.anchorEl)}
-                            onClose={this.closeMenu}
-                        >
-                            <MenuItem>Foo</MenuItem>
-                        </Menu>
+                        {appState.activity === ActivityContext.Activity.TASK &&
+                            <>
+                                <IconButton
+                                    size="large"
+                                    aria-label="menu"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={this.openMenu}
+                                    color="inherit"
+                                >
+                                    <MoreVert />
+                                </IconButton>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={this.state.anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right'
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right'
+                                    }}
+                                    open={Boolean(this.state.anchorEl)}
+                                    onClose={this.closeMenu}
+                                >
+                                    <MenuItem>Foo</MenuItem>
+                                </Menu>
+                            </>
+                        }
                     </Toolbar>
                 </AppBar>
             </Box>

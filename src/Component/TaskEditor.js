@@ -136,7 +136,6 @@ class TaskEditor extends PureComponent {
         for (const [k, v] of Object.entries(Validator)) {
             error[k] = !v();
         }
-        console.debug(error)
 
         return (<Dialog
             open={true}

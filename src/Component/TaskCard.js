@@ -19,7 +19,8 @@ class TaskCard extends PureComponent {
         }
     }
 
-    onStartClicked = () => {
+    onStartClicked = (ev) => {
+        ev.stopPropagation();
         if (this.props.task.timerMode !== TimerMode.ONETIME) {
             this.context.setAppState({
                 activeTaskId: this.props.task.uuid,
@@ -67,7 +68,7 @@ class TaskCard extends PureComponent {
                 content: `Confirm delete task ${this.props.task.name}`,
                 actions: [
                     <Button onClick={this.closePrompt}>Cancel</Button>,
-                    <Button onClick={this.onDeleteConfirm}>Delete</Button>
+                    <Button onClick={this.onDeleteConfirm} color="error">Delete</Button>
                 ]
             }
         });
@@ -79,6 +80,7 @@ class TaskCard extends PureComponent {
     }
 
     openMenu = (ev) => {
+        ev.stopPropagation();
         this.setState({ anchorEl: ev.currentTarget });
     };
 
@@ -92,10 +94,17 @@ class TaskCard extends PureComponent {
         });
     }
 
+    showTaskDetail = () => {
+        this.context.setAppState({
+            activeTaskId: this.props.task.uuid,
+            activity: ActivityContext.Activity.DETAIL
+        });
+    }
+
     render() {
         return (
             <>
-                <Card>
+                <Card onClick={this.showTaskDetail}>
                     <CardHeader
                         action={
                             <IconButton
