@@ -129,8 +129,8 @@ class TaskEditor extends PureComponent {
         const Validator = {
             "name": () => this.state.taskName,
             "quantity": () => this.state.taskType === Task.Type.TOMATO || this.state.taskQuantity,
-            "countDown": () => this.state.taskTimerMode !== TimerMode.COUNT_DOWN || (this.state.taskCountDown > 0 && this.state.taskCountDown < 6039),
-            "restTime": () => this.state.taskTimerMode !== TimerMode.ONETIME || (this.state.taskRestTime > 0 && this.state.taskRestTime < 6039)
+            "countDown": () => this.state.taskTimerMode !== TimerMode.COUNT_DOWN || (this.state.taskCountDown > 0 && this.state.taskCountDown < 100),
+            "restTime": () => this.state.taskTimerMode !== TimerMode.ONETIME || (this.state.taskRestTime > 0 && this.state.taskRestTime < 100)
         };
         const error = {};
         for (const [k, v] of Object.entries(Validator)) {

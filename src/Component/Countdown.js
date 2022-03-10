@@ -9,7 +9,16 @@ class Countdown extends PureComponent {
     render() {
         return (
             <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                <CircularProgress variant="determinate" size={''} value={100} sx={{
+                    color: '#bbb',
+                    width: {
+                        xs: 300,
+                        md: 400,
+                        lg: 500
+                    }
+                }}/>
                 <CircularProgress variant="determinate" {...this.props} size={''} sx={{
+                    position: 'absolute',
                     width: {
                         xs: 300,
                         md: 400,

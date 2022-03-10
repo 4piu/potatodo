@@ -2,11 +2,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
     Button,
     Card, CardActions,
-    CardContent, CardHeader, IconButton, Menu, MenuItem} from "@mui/material";
-import { PureComponent } from "react";
+    CardContent, CardHeader, IconButton, Menu, MenuItem
+} from "@mui/material";
+import {PureComponent} from "react";
 import ActivityContext from "../Context/ActivityContext";
 import StorageHelper from "../Utility/StorageHelper";
-import { TimerMode } from "../Utility/Task";
+import {TimerMode} from "../Utility/Task";
 import Timer from "../Utility/Timer";
 
 class TaskCard extends PureComponent {
@@ -16,17 +17,13 @@ class TaskCard extends PureComponent {
         super(props);
         this.state = {
             anchorEl: null
-        }
+        };
     }
 
     onStartClicked = (ev) => {
         ev.stopPropagation();
-        if (this.props.task.timerMode !== TimerMode.ONETIME) {
-            this.context.setAppState({
-                activeTaskId: this.props.task.uuid,
-                activity: ActivityContext.Activity.TIMER
-            })
-        } else {
+        const task = this.props.task;
+        if (task.timerMode === TimerMode.ONETIME) {
             this.context.setAppState({
                 showPrompt: true,
                 prompt: {
@@ -38,14 +35,30 @@ class TaskCard extends PureComponent {
                     ]
                 }
             });
+        } else {
+            const timerOpts = {};
+            if (task.timerMode === TimerMode.COUNT_DOWN) {
+                timerOpts.plannedWorkDuration = task.countDown * 60;
+                timerOpts.remainingPauseDuration = 180;
+                timerOpts.remainingRestDuration = task.restTime * 60;
+            }
+            if (task.timerMode === TimerMode.ACCUMULATIVE) {
+                timerOpts.remainingPauseDuration = 180;
+                timerOpts.remainingRestDuration = task.restTime * 60;
+            }
+            StorageHelper.setTimer(new Timer(task.uuid, task.timerMode, timerOpts));
+            this.context.setAppState({
+                activeTaskId: task.uuid,
+                activity: ActivityContext.Activity.TIMER
+            });
         }
     };
 
     onCompleteConfirm = () => {
-        StorageHelper.addTimer(new Timer(this.props.task.uuid, TimerMode.ONETIME));
+        StorageHelper.setTimer(new Timer(this.props.task.uuid, TimerMode.ONETIME));
         StorageHelper.completeTimer();
         this.closePrompt();
-    }
+    };
 
     onMenuEditClick = () => {
         this.setState({
@@ -55,7 +68,7 @@ class TaskCard extends PureComponent {
             activeTaskId: this.props.task.uuid,
             showTaskEditor: true
         });
-    }
+    };
 
     onMenuDeleteClick = () => {
         this.setState({
@@ -72,34 +85,34 @@ class TaskCard extends PureComponent {
                 ]
             }
         });
-    }
+    };
 
     onDeleteConfirm = () => {
         StorageHelper.deleteTask(this.props.task.uuid);
         this.closePrompt();
-    }
+    };
 
     openMenu = (ev) => {
         ev.stopPropagation();
-        this.setState({ anchorEl: ev.currentTarget });
+        this.setState({anchorEl: ev.currentTarget});
     };
 
     closeMenu = () => {
-        this.setState({ anchorEl: null });
+        this.setState({anchorEl: null});
     };
 
     closePrompt = () => {
         this.context.setAppState({
             showPrompt: false
         });
-    }
+    };
 
     showTaskDetail = () => {
         this.context.setAppState({
             activeTaskId: this.props.task.uuid,
             activity: ActivityContext.Activity.DETAIL
         });
-    }
+    };
 
     render() {
         return (
@@ -112,7 +125,7 @@ class TaskCard extends PureComponent {
                                 aria-controls="menu-task"
                                 aria-haspopup="true"
                                 onClick={this.openMenu}>
-                                <MoreVertIcon />
+                                <MoreVertIcon/>
                             </IconButton>
                         }
                         title={this.props.task.name}

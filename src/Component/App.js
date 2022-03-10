@@ -19,9 +19,10 @@ class App extends PureComponent {
     constructor(props) {
         super(props);
 
+        const unfinishedTimer = StorageHelper.getTimer()
         this.state = {
-            activity: ActivityContext.Activity.TASK,
-            activeTaskId: null,
+            activity: unfinishedTimer ? ActivityContext.Activity.TIMER : ActivityContext.Activity.TASK,
+            activeTaskId: unfinishedTimer? unfinishedTimer.taskUuid: null,
             showTaskEditor: false,
             showPrompt: false,
             prompt: {
