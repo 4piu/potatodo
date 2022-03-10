@@ -47,7 +47,7 @@ class Appbar extends Component {
                             }
 
                         </Typography>
-                        {appState.activity === ActivityContext.Activity.TASK &&
+                        {appState.activity === ActivityContext.Activity.TASK && false &&
                             <>
                                 <IconButton
                                     size="large"
