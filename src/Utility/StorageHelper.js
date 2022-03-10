@@ -65,6 +65,19 @@ class StorageHelper {
     static deleteTimer = () => {
         localStorage.setItem('timer', null);
     };
+
+    static getTaskHistory = (taskId) => {
+        const task = StorageHelper.cachedTask[taskId];
+        const ret = [];
+        for (const id of task.historyTimer) {
+            ret.push(StorageHelper.cachedHistory[id]);
+        }
+        return ret;
+    };
+
+    static getAllHistory = () => {
+        return Object.values(StorageHelper.cachedHistory);
+    };
 }
 
 export default StorageHelper;
