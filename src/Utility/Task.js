@@ -11,7 +11,7 @@ const TimerMode = Object.freeze({
  * @constructor
  * @public
  * @property {string} uuid object id
- * @property {Type} type tomato, target, or habit
+ * @property {Type} type pomodoro, target, or habit
  * @property {string} name the name of the task
  * @property {TimerMode} timerMode count down, accumulative, or onetime
  * @property {string} comment user defined comment
@@ -26,7 +26,7 @@ const TimerMode = Object.freeze({
  */
 class Task {
     static Type = Object.freeze({
-        TOMATO: 0,
+        POMODORO: 0,
         TARGET: 1,
         HABIT: 2
     });

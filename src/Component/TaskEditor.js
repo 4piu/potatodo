@@ -31,7 +31,7 @@ class TaskEditor extends PureComponent {
         this.state = {
             taskName: activeTask.name || "",
             taskComment: activeTask.comment || "",
-            taskType: activeTask.type || Task.Type.TOMATO,
+            taskType: activeTask.type || Task.Type.POMODORO,
             taskTimerMode: activeTask.timerMode || TimerMode.COUNT_DOWN,
             taskTargetDeadline: activeTask.targetDeadline || Date.now() + 24 * 3600 * 1000,
             taskHabitPeriod: activeTask.habitPeriod || Task.HabitPeriod.DAILY,
@@ -128,7 +128,7 @@ class TaskEditor extends PureComponent {
     render() {
         const Validator = {
             "name": () => this.state.taskName,
-            "quantity": () => this.state.taskType === Task.Type.TOMATO || this.state.taskQuantity,
+            "quantity": () => this.state.taskType === Task.Type.POMODORO || this.state.taskQuantity,
             "countDown": () => this.state.taskTimerMode !== TimerMode.COUNT_DOWN || (this.state.taskCountDown > 0 && this.state.taskCountDown < 100),
             "restTime": () => this.state.taskTimerMode !== TimerMode.ONETIME || (this.state.taskRestTime > 0 && this.state.taskRestTime < 100)
         };
@@ -151,7 +151,7 @@ class TaskEditor extends PureComponent {
                         <FormLabel id="form-task-type">Type</FormLabel>
                         <RadioGroup row aria-labelledby="form-task-type" value={this.state.taskType}
                             onChange={this.onTypeChange}>
-                            <FormControlLabel value={Task.Type.TOMATO} control={<Radio />} label="Tomato" />
+                            <FormControlLabel value={Task.Type.POMODORO} control={<Radio />} label="Pomodoro" />
                             <FormControlLabel value={Task.Type.TARGET} control={<Radio />} label="Target" />
                             <FormControlLabel value={Task.Type.HABIT} control={<Radio />} label="Habit" />
                         </RadioGroup>
