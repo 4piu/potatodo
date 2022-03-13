@@ -139,7 +139,7 @@ class Timer {
     isOutdated = () => {
         if (this.timerMode !== TimerMode.COUNT_DOWN) return false;
         return Date.now() - this.startTime > 1000 * this.plannedWorkDuration ||
-            this.state === Timer.State.PAUSED && Date.now() - this.pausedTime < this.remainingPauseDuration;
+            this.state === Timer.State.PAUSED && Date.now() - this.pausedTime > this.remainingPauseDuration;
     };
 
     canPause = () => {
